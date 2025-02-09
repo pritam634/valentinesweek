@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Chocolate Day</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+
+            & h3 {
+                position: inherit;
+
+                &.hide {
+                    display: none;
+                }
+            }
+
+            & .chocolates {
+                position: relative;
+                width: 100%;
+                height: 100%;
+
+                & img {
+                    position: absolute;
+                    width: 200px;
+                    scale: .5;
+                    left: 30px;
+                    top: 40px;
+
+                    &.shakein {
+                        animation: shakein 2s ease-in-out forwards;
+                    }
+
+                    &:first-child {
+                        rotate: 45deg;
+                    }
+
+                    &:last-child {
+                        rotate: -45deg;
+
+                    }
+                }
+            }
+
+            & #box-cap {
+                position: inherit;
+                height: 30px;
+                width: 251px;
+                background: rgb(255, 114, 21);
+
+                &.open-box {
+                    animation: open 2s ease-in-out forwards;
+                }
+            }
+
+
+
+            & #box {
+                height: 250px;
+                width: 250px;
+                background: red;
+                z-index: 1;
+                cursor: pointer;
+
+                &.vanish {
+                    transition: all .3s ease;
+                    animation: vanish 2s ease-in-out forwards;
+                }
+            }
+        }
+
+        h2 {
+            opacity: 0;
+            transition: all .3s ease;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 15px;
+            height: 15px;
+            background: red;
+            border-radius: 50%;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes open {
+            25% {
+                transform: translateY(-50px);
+            }
+
+            50% {
+                transform: translate(250px, -50px);
+            }
+
+            100% {
+                transform: translate(250px, 850px);
+            }
+        }
+
+        @keyframes shakein {
+            25% {
+                top: -200px;
+            }
+
+            100% {
+                scale: 1.5;
+                z-index: 2;
+            }
+        }
+
+        @keyframes vanish {
+            from {
+                visibility: visible;
+            }
+
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="chocolates">
+            <img id="chocolate1" src="./chocolate-1.png" alt="">
+            <img id="chocolate2" src="./chocolate-2.png" alt="">
+        </div>
+        <div id="box-cap"></div>
+        <div id="box" onclick="propose()"></div>
+        <h3>Click on the Box 👆</h3>
+        <h2>I love You</h2>
+    </div>
+    <script>
+        const h2 = document.querySelector("h2");
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("hearts");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        function propose() {
+            const box = document.getElementById("box");
+            const boxCap = document.getElementById("box-cap");
+            const chocolates = document.querySelectorAll(".chocolates img");
+            const h3 = document.querySelector("h3");
+            boxCap.classList.add("open-box");
+            h3.classList.add("hide");
+            setTimeout(() => {
+                chocolates.forEach(chocolate => {
+                    chocolate.classList.add("shakein");
+                });
+            }, 2000);
+            setTimeout(() => {
+                box.classList.add("vanish");
+            }, 2500);
+
+            setTimeout(() => {
+                h2.style.opacity = 1;
+            }, 5000);
+            setTimeout(() => {
+                h2.innerHTML = "Happy Chocolate Day ❤️";
+                h2.style.scale = 1;
+            }, 8000);
+        }
+    </script>
+</body>
+
+</html>
