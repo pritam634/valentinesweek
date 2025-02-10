@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./teddy.png" type="image/x-icon">
+    <title>Happy Teddy Day</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+
+            & h3 {
+                position: inherit;
+
+                &.hide {
+                    display: none;
+                }
+            }
+
+            & #box-cap {
+                position: inherit;
+                height: 30px;
+                width: 201px;
+                background: crimson;
+                &.open-box {
+                    animation: open 2s ease-in-out forwards;
+                }
+            }
+
+            & img#ring {
+                position: relative;
+                width: 200px;
+                top: 250px;
+                &.out-ring {
+                    animation: out-ring 2s ease-in-out forwards;
+                }
+            }
+
+            & #box {
+                height: 250px;
+                width: 200px;
+                background: red;
+                z-index: 1;
+                cursor: pointer;
+                &.vanish {
+                    transition: all .3s ease;
+                    animation: vanish 2s ease-in-out forwards;
+                }
+            }
+        }
+        h1 {
+            opacity: 0;
+            transition: all .3s ease;
+            margin-top: 100px;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 15px;
+            height:15px;
+            background: red;
+            border-radius: 50%;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes open {
+            25% {
+                transform: translateY(-50px);
+            }
+            50% {
+                transform: translate(250px, -50px);
+            }
+            100% {
+                transform: translate(250px, 850px);
+            }
+        }
+
+        @keyframes out-ring {
+            25% {
+                top: 0px;
+            } 
+
+            100% {
+                scale: 1.5;
+                z-index: 2;
+            }
+        }
+        @keyframes vanish {
+            from {
+                visibility: visible;
+            }
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img id="ring" src="./teddy.png" alt="">
+        <div id="box-cap"></div>
+        <div id="box" onclick="propose()"></div>
+        <h3>Click on the Box 👆</h3>
+        <h1>I love You</h1>
+    </div>
+    <script>
+        const h1 = document.querySelector("h1");
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("hearts");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        function propose() {
+            const box = document.getElementById("box");
+            const boxCap = document.getElementById("box-cap");
+            const ring = document.getElementById("ring");
+            const h3 = document.querySelector("h3");
+            boxCap.classList.add("open-box");
+            h3.classList.add("hide")
+            setTimeout(() => {
+                ring.classList.add("out-ring");
+            }, 2000);
+            setTimeout(() => {
+                box.classList.add("vanish");
+            }, 2500);
+
+            setTimeout(() => {
+                h1.style.opacity=1;
+            }, 5000);
+            setTimeout(() => {
+                h1.innerHTML = "Happy Teddy Day ❤️";
+            }, 8000);
+        }
+    </script>
+</body>
+
+</html>
